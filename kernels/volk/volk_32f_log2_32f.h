@@ -97,6 +97,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+////////////////////////////////////////////////////////////////////////
+// log2f
+////////////////////////////////////////////////////////////////////////
+#include <math.h>
+// +-Inf -> +-127.0f in order to match the behaviour of the SIMD kernels
+static inline float log2f_non_ieee(float f)
+{
+    float const result = log2f(f);
+    return isinf(result) ? copysignf(127.0f, result) : result;
+}
+
+
 #define LOG_POLY_DEGREE 6
 
 #ifdef LV_HAVE_GENERIC
